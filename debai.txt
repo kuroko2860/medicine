@@ -1,0 +1,12 @@
+XÂY DỰNG PHẦN MỀM QUẢN LÝ THUỐC
+2. Nội dung và yêu cầu 
+Nhằm phục vụ nhu cầu mua thuốc của bệnh nhân, bệnh viện trung ương mở nhà thuốc trong khuôn bệnh viện. Tuy vậy số lượng thuốc rất nhiều với nhiều loại khác nhau. Vì vậy giám đốc bệnh viện quyết định xây dựng phần mềm quản lý thuốc cho nhà thuốc.
+
+Hệ thống quản lý được mô tả như sau: 
+a. Người quản trị phải đăng nhập vào để sử dụng chương trình. 
+b. Người quản trị có thể nhập dữ liệu và chỉnh sửa dữ liệu về thuốc. Thuốc được quản lý theo nhóm và theo lô nhập để tiện tìm kiếm 
+c. Khi có các lô thuốc mới về, người quản trị nhập thông tin thuốc vào hệ thống nếu thuốc chưa có trong danh mục thuốc. Lập phiếu nhập thuốc và chi tiết về các lô thuốc mới nhập, cập nhật số lượng thuốc trong kho. 
+d. Người quản lý có thể tạo ra các báo cáo thống kê sau: 
+- Báo cáo thống kê số thuốc tồn kho 
+- Báo cáo thống kê số thuốc quá hạn 
+- Báo cáo thống kê số thuốc sắp hết hạn trong khoảng thời gian 1 tháng, 3 tháng…
