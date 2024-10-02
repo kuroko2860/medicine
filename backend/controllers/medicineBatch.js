@@ -35,24 +35,15 @@ async function createBatch(req, res) {
       return res.status(400).json({ message: "Batch number already exists" });
     }
 
-    let existingMedicineGroup = await MedicineGroup.getMedicineGroupByName(
-      newBatch.medicine_group
-    );
-    if (!existingMedicineGroup) {
-      existingMedicineGroup = await MedicineGroup.createMedicineGroup({
-        name: newBatch.medicine_group,
-        description: newBatch.medicine_group,
-      });
-    }
     let existingMedicine = await Medicine.getMedicineByNameAndGroupId(
       newBatch.medicine_name,
-      existingMedicineGroup.id
+      newBatch.group_id
     );
-    if (existingMedicine.length == 0) {
+    if (!existingMedicine) {
       existingMedicine = await Medicine.createMedicine({
         name: newBatch.medicine_name,
         description: newBatch.medicine_name,
-        group_id: existingMedicineGroup.id, // Use the groupId from the newMedicineGroup
+        group_id: newBatch.group_id, // Use the groupId from the newMedicineGroup
       });
     }
 
@@ -69,30 +60,15 @@ async function createBatch(req, res) {
 async function updateBatch(req, res) {
   try {
     const newBatch = req.body;
-    let existingMedicineGroup = await MedicineGroup.getMedicineGroupByName(
-      newBatch.medicine_group
-    );
-    if (!existingMedicineGroup) {
-      existingMedicineGroup = await MedicineGroup.createMedicineGroup({
-        name: newBatch.group_name,
-        description: newBatch.group_name,
-      });
-    }
-    let existingMedicine = await Medicine.getMedicineByNameAndGroupId(
+
+    await Medicine.updateMedicineNameAndGroupId(
+      newBatch.medicine_id,
       newBatch.medicine_name,
-      existingMedicineGroup.id
+      newBatch.group_id
     );
-    if (existingMedicine.length == 0) {
-      existingMedicine = await Medicine.createMedicine({
-        name: newBatch.medicine_name,
-        description: newBatch.medicine_name,
-        group_id: existingMedicineGroup.id, // Use the groupId from the newMedicineGroup
-      });
-    }
 
     const result = await MedicineBatch.updateBatch(req.params.id, {
       ...newBatch,
-      medicine_id: existingMedicine.id,
     });
     if (result.rowsAffected[0] > 0) {
       res.json({ message: "Medicine batch updated successfully" });

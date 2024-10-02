@@ -11,8 +11,7 @@ import Stats from "./pages/Stats";
 import Expired from "./components/stats/Expired";
 import Stock from "./components/stats/Stock";
 import MedicineBatchDetails from "./components/medicineBatch/Details";
-import ExpiredSoon1 from "./components/stats/ExpiredSoon1";
-import ExpiredSoon3 from "./components/stats/ExpiredSoon3";
+import ExpiredSoon from "./components/stats/ExpiredSoon";
 
 function App() {
   return (
@@ -83,20 +82,11 @@ function App() {
               </PrivateRoute>
             }
           />
-
           <Route
-            path="expire-soon/1"
+            path="expire-soon"
             element={
               <PrivateRoute>
-                <ExpiredSoon1 />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="expire-soon/3"
-            element={
-              <PrivateRoute>
-                <ExpiredSoon3 />
+                <ExpiredSoon />
               </PrivateRoute>
             }
           />

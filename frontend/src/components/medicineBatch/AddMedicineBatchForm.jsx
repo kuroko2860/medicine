@@ -1,7 +1,12 @@
 import { useForm } from "react-hook-form";
 import axios from "../../config/axios";
+import { toast } from "react-toastify";
 
-function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
+function AddMedicineBatchForm({
+  onClose,
+  medicineGroups,
+  fetchMedicineBatches,
+}) {
   const { register, handleSubmit, errors = {} } = useForm();
 
   const onSubmit = async (data) => {
@@ -9,8 +14,10 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
       await axios.post("/medicine-batches", data);
       onClose();
       fetchMedicineBatches();
+      toast.success("Medicine batch added successfully");
     } catch (error) {
       console.error("Error submitting medicine batch:", error);
+      toast.error(error.message);
     }
   };
 
@@ -19,13 +26,13 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-4 bg-white  p-12 shadow-2xl rounded"
     >
-      <h2 className="text-2xl font-bold">Add New Medicine Batch</h2>
+      <h2 className="text-2xl font-bold">Thêm lô thuốc</h2>
       <div className="flex flex-col">
         <label
           className="mb-2 text-sm font-medium text-gray-700"
           htmlFor="batch_number"
         >
-          Batch number:
+          ID:
         </label>
         <input
           type="text"
@@ -33,9 +40,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           {...register("batch_number", { required: true })}
           className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
-        {errors.batch_number && (
-          <div className="text-red-500">Batch number is required</div>
-        )}
+        {errors.batch_number && <div className="text-red-500">ID yêu cầu</div>}
       </div>
 
       <div className="flex flex-col">
@@ -43,7 +48,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="mb-2 text-sm font-medium text-gray-700"
           htmlFor="medicine_name"
         >
-          Medicine name:
+          Tên thuốc:
         </label>
         <input
           type="text"
@@ -52,26 +57,26 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.medicine_name && (
-          <div className="text-red-500">Medicine name is required</div>
+          <div className="text-red-500">Yêu cầu tên</div>
         )}
       </div>
 
       <div className="flex flex-col">
-        <label
-          className="mb-2 text-sm font-medium text-gray-700"
-          htmlFor="medicine_group"
-        >
-          Medicine group:
+        <label className="block">
+          Nhóm thuốc:
+          <select
+            {...register("group_id", { required: true })}
+            className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">Chọn nhóm</option>
+            {medicineGroups &&
+              Object.entries(medicineGroups).map(([group_id, group_name]) => (
+                <option key={group_id} value={group_id}>
+                  {group_name}
+                </option>
+              ))}
+          </select>
         </label>
-        <input
-          type="text"
-          id="medicine_group"
-          {...register("medicine_group", { required: true })}
-          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        {errors.medicine_group && (
-          <div className="text-red-500">Medicine group is required</div>
-        )}
       </div>
 
       <div className="flex flex-col">
@@ -79,7 +84,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="mb-2 text-sm font-medium text-gray-700"
           htmlFor="date_received"
         >
-          Date received:
+          Ngày nhận:
         </label>
         <input
           type="date"
@@ -88,7 +93,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.date_received && (
-          <div className="text-red-500">Date received is required</div>
+          <div className="text-red-500">Yêu cầu ngày nhận</div>
         )}
       </div>
 
@@ -97,7 +102,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="mb-2 text-sm font-medium text-gray-700"
           htmlFor="expiration_date"
         >
-          Expiration date:
+          Ngày hết hạn:
         </label>
         <input
           type="date"
@@ -106,7 +111,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.expiration_date && (
-          <div className="text-red-500">Expiration date is required</div>
+          <div className="text-red-500">Yêu cầu ngày hết hạn</div>
         )}
       </div>
 
@@ -115,7 +120,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="mb-2 text-sm font-medium text-gray-700"
           htmlFor="quantity"
         >
-          Quantity:
+          Số lượng:
         </label>
         <input
           type="number"
@@ -124,7 +129,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
           className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.quantity && (
-          <div className="text-red-500">Quantity is required</div>
+          <div className="text-red-500">Yêu cầu số lượng</div>
         )}
       </div>
 
@@ -132,7 +137,7 @@ function AddMedicineBatchForm({ onClose, fetchMedicineBatches }) {
         type="submit"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
-        Add
+        Thêm
       </button>
     </form>
   );

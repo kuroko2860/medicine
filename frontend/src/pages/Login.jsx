@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../config/axios";
+import { toast } from "react-toastify";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -16,8 +17,9 @@ function Login() {
       });
       localStorage.setItem("token", response.data.token);
       navigate("/");
+      toast.success("Login successful");
     } catch (error) {
-      console.error("Error logging in:", error);
+      toast.error(error.message);
     }
   };
 
@@ -26,7 +28,7 @@ function Login() {
       onSubmit={handleLogin}
       className="max-w-sm mx-auto mt-10 p-6 bg-white rounded-lg shadow-md"
     >
-      <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">Đăng nhập</h2>
       <input
         type="text"
         placeholder="Username"
@@ -47,12 +49,12 @@ function Login() {
         type="submit"
         className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
       >
-        Login
+        Đăng nhập
       </button>
       <p className="text-center mt-4">
-        Dont have an account?{" "}
+        Chưa có tài khoản?{" "}
         <a href="/register" className="text-blue-500 hover:underline">
-          Register
+          Đăng ký
         </a>
       </p>
     </form>

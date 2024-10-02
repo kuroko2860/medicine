@@ -3,15 +3,16 @@ import axios from "../config/axios";
 import Popup from "reactjs-popup";
 import AddMedicineGroupForm from "../components/medicineGroup/AddMedicineGroupForm";
 import EditMedicineGroupForm from "../components/medicineGroup/EditMedicineGroupForm";
+import { toast } from "react-toastify";
 
 const MedicineGroupList = ({ medicineGroups, onDelete, fetchGroups }) => {
   return (
     <table className="min-w-full">
       <thead>
         <tr>
-          <th className="bg-gray-200 p-2 text-center">Group Name</th>
-          <th className="bg-gray-200 p-2 text-center">Description</th>
-          <th className="bg-gray-200 p-2 text-center">Actions</th>
+          <th className="bg-gray-200 p-2 text-center">Nhóm thuốc</th>
+          <th className="bg-gray-200 p-2 text-center">Mô tả</th>
+          <th className="bg-gray-200 p-2 text-center"></th>
         </tr>
       </thead>
       <tbody>
@@ -23,7 +24,7 @@ const MedicineGroupList = ({ medicineGroups, onDelete, fetchGroups }) => {
               <Popup
                 trigger={
                   <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
-                    Edit
+                    Sửa
                   </button>
                 }
                 modal
@@ -41,7 +42,7 @@ const MedicineGroupList = ({ medicineGroups, onDelete, fetchGroups }) => {
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded m-2"
                 onClick={() => onDelete(group.id)}
               >
-                Delete
+                Xóa
               </button>
             </td>
           </tr>
@@ -72,17 +73,18 @@ const MedicineGroup = () => {
       .delete(`/medicine-groups/${groupId}`)
       .then(() => {
         fetchMedicineGroups();
+        toast.success("Medicine group deleted successfully");
       })
-      .catch((error) => console.error("Error deleting medicine group:", error));
+      .catch((error) => toast.error(error.message));
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Medicine Groups</h1>
+      <h1 className="text-2xl font-bold mb-4">Nhóm thuốc</h1>
       <Popup
         trigger={
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">
-            Add New Group
+            Tạo nhóm thuốc
           </button>
         }
         modal

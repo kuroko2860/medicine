@@ -16,41 +16,31 @@ function Stats() {
     navigate("/expired");
   };
 
-  const handleExpiringSoon1Click = () => {
+  const handleExpiringSoonClick = () => {
     // Logic to show medicines expiring soon
-    navigate("/expire-soon/1");
-  };
-  const handleExpiringSoon3Click = () => {
-    // Logic to show medicines expiring soon
-    navigate("/expire-soon/3");
+    navigate("/expire-soon");
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Statistics</h1>
+      <h1 className="text-3xl font-bold mb-4">Thống kê</h1>
       <button
         onClick={handleStockClick}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-4 "
       >
-        View Stock
+        Xem tồn kho
       </button>
       <button
         onClick={handleExpiredClick}
         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-4"
       >
-        View Expired
+        Xem thuốc hết hạn
       </button>
       <button
-        onClick={handleExpiringSoon1Click}
+        onClick={handleExpiringSoonClick}
         className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded m-4"
       >
-        View Expiring Soon in 1 month
-      </button>
-      <button
-        onClick={handleExpiringSoon3Click}
-        className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded m-4"
-      >
-        View Expiring Soon in 3 month
+        Xem thuốc sắp hết hạn
       </button>
     </div>
   );

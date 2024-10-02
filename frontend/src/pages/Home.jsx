@@ -10,14 +10,12 @@ function Home() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">
-        Welcome to Medicine Management
-      </h1>
+      <h1 className="text-3xl font-bold mb-6">PHẦN MỀM QUẢN LÝ THUỐC</h1>
       <button
         className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
         onClick={handleLogout}
       >
-        Logout
+        Đăng xuất
       </button>
     </div>
   );

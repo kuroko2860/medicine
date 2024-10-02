@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "../../config/axios";
+import { toast } from "react-toastify";
 
 function AddMedicineGroupForm({ onClose, fetchGroups }) {
   const [name, setName] = useState("");
@@ -11,8 +12,10 @@ function AddMedicineGroupForm({ onClose, fetchGroups }) {
       await axios.post("/medicine-groups", { name, description });
       onClose();
       fetchGroups();
+      toast.success("Medicine group added successfully");
     } catch (error) {
       console.error("Error submitting medicine group:", error);
+      toast.error(error.message);
     }
   };
 
@@ -21,13 +24,13 @@ function AddMedicineGroupForm({ onClose, fetchGroups }) {
       onSubmit={handleSubmit}
       className="space-y-4 bg-white  p-12 shadow-2xl rounded"
     >
-      <h2 className="text-2xl font-bold">Add New Medicine Group</h2>
+      <h2 className="text-2xl font-bold">Thêm nhóm thuốc mới</h2>
       <div className="flex flex-col">
         <label
           htmlFor="name"
           className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Medicine Group Name
+          Tên
         </label>
         <input
           type="text"
@@ -43,7 +46,7 @@ function AddMedicineGroupForm({ onClose, fetchGroups }) {
           htmlFor="description"
           className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Description
+          Mô tả
         </label>
         <textarea
           id="description"
@@ -59,7 +62,7 @@ function AddMedicineGroupForm({ onClose, fetchGroups }) {
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded dark:bg-blue-600 dark:hover:bg-blue-700"
         >
-          Add
+          Thêm
         </button>
       </div>
     </form>

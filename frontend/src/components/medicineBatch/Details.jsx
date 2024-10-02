@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "../../config/axios";
 import { useParams } from "react-router-dom";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
 
 function MedicineBatchDetails() {
   const [batchDetails, setBatchDetails] = useState(null);
@@ -11,33 +11,51 @@ function MedicineBatchDetails() {
     fetchBatchDetails(batch_number);
   }, [batch_number]);
 
-  const generatePdf = () => {
-    const doc = new jsPDF();
+  // const generatePdf = () => {
+  //   const doc = new jsPDF();
 
-    doc.text("Pharmacy Inventory Report", 10, 10);
+  //   doc.text("IMPORT MEDICINE FORM", 105, 10, { align: "center" });
 
-    // Define table columns and rows
-    const tableColumns = ["medicine_name", "batch_number", "expiration_date"];
-    const tableRows = batchDetails
-      ? [
-          [
-            batchDetails.medicine_name,
-            batchDetails.batch_number,
-            formatDate(batchDetails.expiration_date),
-          ],
-        ]
-      : [];
+  //   doc.text(
+  //     "Importer Name: ......................................................................................",
+  //     10,
+  //     20
+  //   );
+  //   doc.text(
+  //     "Received Name: ......................................................................................",
+  //     10,
+  //     30
+  //   );
+  //   const start = 50;
 
-    // Add table to PDF
-    doc.autoTable({
-      head: [tableColumns],
-      body: tableRows,
-      startY: 20,
-    });
+  //   doc.text("Batch ID: " + batchDetails.batch_number, 10, start);
+  //   doc.text("Medicine Name: " + batchDetails.medicine_name, 10, start + 10);
+  //   doc.text("Group Name: " + batchDetails.group_name, 10, start + 20);
+  //   doc.text("Quantity: " + batchDetails.quantity, 10, start + 30);
+  //   doc.text(
+  //     "Received Date: " + formatDate(batchDetails.date_received),
+  //     10,
+  //     start + 40
+  //   );
+  //   doc.text(
+  //     "Expiration Date: " + formatDate(batchDetails.expiration_date),
+  //     10,
+  //     start + 50
+  //   );
 
-    // Save the PDF
-    doc.save("pharmacy-report.pdf");
-  };
+  //   doc.text("Importer signature", 10, start + 70);
+  //   doc.text("Receiver signature ", 130, start + 70);
+
+  //   // // Add table to PDF
+  //   // doc.autoTable({
+  //   //   head: [tableColumns],
+  //   //   body: tableRows,
+  //   //   startY: 20,
+  //   // });
+
+  //   // Save the PDF
+  //   doc.save("import-medicine.pdf");
+  // };
 
   const fetchBatchDetails = async (batch_number) => {
     try {
@@ -54,26 +72,27 @@ function MedicineBatchDetails() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Medicine Batch Details</h1>
+      <h1 className="text-2xl font-bold mb-4">Chi tiết lô thuốc</h1>
       {batchDetails && (
         <div className="bg-white p-6 rounded shadow-lg">
           <h2 className="text-lg font-bold mb-2">
-            Batch Number: {batchDetails.batch_number}
+            ID: {batchDetails.batch_number}
           </h2>
-          <p className="mb-2">Medicine Name: {batchDetails.medicine_name}</p>
-          <p className="mb-2">Quantity: {batchDetails.quantity}</p>
+          <p className="mb-2">Tên thuốc: {batchDetails.medicine_name}</p>
+          <p className="mb-2">Nhóm thuốc: {batchDetails.group_name}</p>
+          <p className="mb-2">Số lượng: {batchDetails.quantity}</p>
           <p className="mb-4">
-            Received Date: {formatDate(batchDetails.date_received)}
+            Ngày nhận: {formatDate(batchDetails.date_received)}
           </p>
           <p className="mb-4">
-            Expiry Date: {formatDate(batchDetails.expiration_date)}
+            Ngày hết hạn: {formatDate(batchDetails.expiration_date)}
           </p>
-          <button
+          {/* <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
             onClick={generatePdf}
           >
-            Generate PDF
-          </button>
+            In
+          </button> */}
         </div>
       )}
     </div>

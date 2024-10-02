@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
+import { toast } from "react-toastify";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -14,10 +15,13 @@ function Register() {
       await axiosInstance.post("/register", {
         username,
         password,
+        email,
       });
       navigate("/login");
+      toast.success("Registered successfully");
     } catch (error) {
       console.error("Error registering:", error);
+      toast.error(error.message);
     }
   };
 
@@ -26,7 +30,7 @@ function Register() {
       onSubmit={handleRegister}
       className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-sm mx-auto"
     >
-      <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">Đăng ký</h2>
 
       <div className="mb-4">
         <input
@@ -65,13 +69,13 @@ function Register() {
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Register
+          Đăng ký
         </button>
       </div>
       <p className="text-center mt-4">
-        Already have an account?{" "}
+        Đã có tài khoản?{" "}
         <a href="/login" className="text-blue-500 hover:underline">
-          Login
+          Đăng nhập
         </a>
       </p>
     </form>

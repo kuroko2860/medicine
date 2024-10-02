@@ -1,5 +1,6 @@
 import axios from "../../config/axios";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 function EditMedicineForm({
   onClose,
@@ -24,8 +25,10 @@ function EditMedicineForm({
       await axios.put(`/medicines/${medicine.id}`, data);
       onClose();
       fetchMedicines();
+      toast.success("Medicine updated successfully");
     } catch (error) {
       console.error(error);
+      toast.error(error.message);
     }
   };
 
@@ -34,9 +37,9 @@ function EditMedicineForm({
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-4 bg-white  p-12 shadow-2xl rounded"
     >
-      <h2 className="text-2xl font-bold">Edit Medicine</h2>
+      <h2 className="text-2xl font-bold">Sửa thuốc</h2>
       <label className="block">
-        Name
+        Tên
         <input
           type="text"
           {...register("name")}
@@ -48,12 +51,12 @@ function EditMedicineForm({
       </label>
 
       <label className="block">
-        Group:
+        Nhóm thuốc:
         <select
           {...register("group_id", { required: true })}
           className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
-          <option value="">Select group</option>
+          <option value="">Chọn nhóm</option>
           {medicine_groups &&
             Object.entries(medicine_groups).map(([group_id, group_name]) => (
               <option
@@ -71,7 +74,7 @@ function EditMedicineForm({
       </div>
 
       <label className="block">
-        Description
+        Mô tả:
         <textarea
           {...register("description")}
           className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -87,7 +90,7 @@ function EditMedicineForm({
         type="submit"
         className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        Update
+        Cập nhật
       </button>
     </form>
   );

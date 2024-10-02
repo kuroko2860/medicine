@@ -24,6 +24,24 @@ async function getMedicineById(id) {
     throw err;
   }
 }
+
+async function updateMedicineNameAndGroupId(id, name, group_id) {
+  try {
+    let pool = await poolPromise;
+    let result = await pool
+      .request()
+      .input("id", sql.Int, id)
+      .input("name", sql.NVarChar, name)
+      .input("group_id", sql.Int, group_id)
+      .query(
+        "UPDATE medicines SET name = @name, [group_id] = @group_id WHERE id = @id"
+      );
+    return result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
 async function getMedicineByName(name) {
   try {
     let pool = await poolPromise;
@@ -47,7 +65,7 @@ async function getMedicineByNameAndGroupId(name, group_id) {
       .query(
         "SELECT * FROM medicines WHERE name = @name AND [group_id] = @group_id"
       );
-    return result.recordset;
+    return result.recordset[0];
   } catch (err) {
     console.log(err);
     throw err;
@@ -134,6 +152,7 @@ async function getExpiredMedicines() {
   let result = await pool.request().query(`
         SELECT 
             m.name as medicine_name,
+            mg.name as group_name,
             b.batch_number,
             b.expiration_date,
             b.quantity
@@ -141,6 +160,8 @@ async function getExpiredMedicines() {
             medicine_batches b
         JOIN 
             medicines m ON b.medicine_id = m.id
+        join
+            medicine_groups mg on m.group_id = mg.id
         WHERE 
             b.expiration_date < CURRENT_TIMESTAMP
         ORDER BY 
@@ -155,6 +176,7 @@ async function getMedicinesExpiringSoon(months) {
   let result = await pool.request().input("months", sql.Int, months).query(`
             SELECT 
                 m.name AS medicine_name,
+                mg.name AS group_name,
                 b.batch_number,
                 b.expiration_date,
                 b.quantity
@@ -162,6 +184,8 @@ async function getMedicinesExpiringSoon(months) {
                 medicine_batches b
             JOIN 
                 medicines m ON b.medicine_id = m.id
+            JOIN
+                medicine_groups mg ON m.group_id = mg.id
             WHERE
                 b.expiration_date BETWEEN CURRENT_TIMESTAMP AND DATEADD(MONTH, @months, CURRENT_TIMESTAMP)
             ORDER BY 
@@ -175,13 +199,16 @@ async function getInventoryStock() {
   let result = await pool.request().query(`
         SELECT 
             m.name AS medicine_name,
+            mg.name AS group_name,
             SUM(b.quantity) AS total_quantity
         FROM 
             medicine_batches b
         JOIN 
             medicines m ON b.medicine_id = m.id
+        JOIN
+            medicine_groups mg ON m.group_id = mg.id
         GROUP BY 
-            m.name
+            m.name, mg.name
         ORDER BY 
             m.name ASC
     `);
@@ -193,6 +220,7 @@ module.exports = {
   getMedicineById,
   createMedicine,
   updateMedicine,
+  updateMedicineNameAndGroupId,
   deleteMedicine,
   getMedicineByName,
   getExpiredMedicines,
