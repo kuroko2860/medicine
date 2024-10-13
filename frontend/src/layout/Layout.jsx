@@ -1,6 +1,11 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Layout = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
   return (
     <div className="flex">
       <div className="w-1/6 bg-gray-800 h-screen fixed">
@@ -8,17 +13,17 @@ const Layout = () => {
           Quản lý thuốc
         </div>
         <ul className="mt-4">
-          <li>
+          {/* <li>
             <a
               href="/"
               className="text-white hover:text-gray-300 block py-2 px-4"
             >
               Trang chủ
             </a>
-          </li>
+          </li> */}
           <li>
             <a
-              href="/medicines"
+              href="/"
               className="text-white hover:text-gray-300 block py-2 px-4"
             >
               Thuốc
@@ -47,6 +52,15 @@ const Layout = () => {
             >
               Thống kê
             </a>
+          </li>
+          <div className="h-1 my-2 bg-gray-600" />
+          <li>
+            <p
+              className="text-red-500 hover:text-red-600 block py-2 px-4 cursor-pointer"
+              onClick={handleLogout}
+            >
+              Đăng xuất
+            </p>
           </li>
         </ul>
       </div>
