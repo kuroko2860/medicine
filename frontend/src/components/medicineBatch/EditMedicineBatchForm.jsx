@@ -23,6 +23,7 @@ function EditMedicineBatchForm({
         ? new Date(batch.expiration_date).toISOString().split("T")[0]
         : "",
       quantity: batch.quantity,
+      medicine_unit: batch.medicine_unit,
       date_received: batch.date_received
         ? new Date(batch.date_received).toISOString().split("T")[0]
         : "",
@@ -128,6 +129,23 @@ function EditMedicineBatchForm({
           <div className="text-red-500 text-sm">Yêu cầu sô lượng</div>
         )}
       </label>
+      {/* <div className="flex flex-col">
+        <label
+          className="mb-2 text-sm font-medium text-gray-700"
+          htmlFor="medicine_unit"
+        >
+          Đơn vị thuốc:
+        </label>
+        <input
+          type="text"
+          id="medicine_unit"
+          {...register("medicine_unit", { required: true })}
+          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        {errors.medicine_unit && (
+          <div className="text-red-500">Yêu cầu đơn vị thuốc</div>
+        )}
+      </div> */}
 
       <label className="block">
         Ngày nhận:

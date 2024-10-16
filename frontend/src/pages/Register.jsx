@@ -27,10 +27,20 @@ function Register() {
 
   return (
     <div className="container mx-auto p-8 flex">
-      <div className="max-w-md w-full mx-auto">
-        <h1 className="text-4xl text-center mb-12 font-bold">Quản lý thuốc</h1>
+      <div className=" w-full mx-auto">
+        <div className="flex items-center justify-between w-full bg-blue-800 text-white py-4 px-8 h-16 text-xl mb-10">
+          <h1 className="text-4xl text-center font-bold">Quản lý thuốc</h1>
+          <div className="flex gap-6">
+            <a href="/login" className="hover:text-gray-300 duration-300">
+              Đăng nhập
+            </a>
+            <a href="/register" className="hover:text-gray-300 duration-300">
+              Đăng ký
+            </a>
+          </div>
+        </div>
 
-        <div className="bg-white rounded-lg overflow-hidden shadow-2xl border border-gray-300">
+        <div className="max-w-md w-full mx-auto bg-white rounded-lg overflow-hidden shadow-2xl border border-gray-300">
           <div className="p-8">
             <h2 className="text-2xl font-bold mb-4 text-center">Đăng ký</h2>
             <form

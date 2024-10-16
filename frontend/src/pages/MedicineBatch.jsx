@@ -44,6 +44,9 @@ const MedicineBatchList = ({
               <TableCell className="bg-gray-200 p-2 text-center">
                 Số lượng
               </TableCell>
+              {/* <TableCell className="bg-gray-200 p-2 text-center">
+                Đơn vị
+              </TableCell> */}
               <TableCell className="bg-gray-200 p-2 text-center"></TableCell>
             </TableRow>
           </TableHead>
@@ -59,6 +62,7 @@ const MedicineBatchList = ({
                 <TableCell className="p-2 text-center">
                   {batch.quantity}
                 </TableCell>
+                {/* <TableCell className="p-2 text-center">{batch.unit}</TableCell> */}
                 <TableCell className="p-2 text-center">
                   <Popup
                     trigger={

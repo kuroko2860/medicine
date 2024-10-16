@@ -20,6 +20,8 @@ function ExpiredSoon() {
 
   const handlePrint = () => {
     const doc = new jsPDF();
+    doc.addFont("arial-normal", "Arial", "normal");
+    doc.setFont("Arial");
 
     doc.text("Expired Soon Medicines", 10, 10);
 
@@ -32,6 +34,10 @@ function ExpiredSoon() {
       ]),
       startY: 20, // Start table from the 20th row
       theme: "grid", // Use grid theme
+      styles: {
+        font: "arial",
+        fontSize: 10,
+      },
     });
 
     doc.save("expired-soon.pdf");

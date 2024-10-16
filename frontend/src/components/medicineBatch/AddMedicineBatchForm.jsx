@@ -132,6 +132,23 @@ function AddMedicineBatchForm({
           <div className="text-red-500">Yêu cầu số lượng</div>
         )}
       </div>
+      {/* <div className="flex flex-col">
+        <label
+          className="mb-2 text-sm font-medium text-gray-700"
+          htmlFor="medicine_unit"
+        >
+          Đơn vị thuốc:
+        </label>
+        <input
+          type="text"
+          id="medicine_unit"
+          {...register("medicine_unit", { required: true })}
+          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        {errors.medicine_unit && (
+          <div className="text-red-500">Yêu cầu đơn vị thuốc</div>
+        )}
+      </div> */}
 
       <button
         type="submit"
