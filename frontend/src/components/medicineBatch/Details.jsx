@@ -72,23 +72,35 @@ function MedicineBatchDetails() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Chi tiết lô thuốc</h1>
+      <h1 className="text-2xl font-bold mb-4 text-gray-800">
+        Chi tiết lô thuốc
+      </h1>
       {batchDetails && (
-        <div className="bg-white p-6 rounded shadow-lg">
-          <h2 className="text-lg font-bold mb-2">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-lg font-bold mb-2 text-gray-800">
             ID: {batchDetails.batch_number}
           </h2>
-          <p className="mb-2">Tên thuốc: {batchDetails.medicine_name}</p>
-          <p className="mb-2">Nhóm thuốc: {batchDetails.group_name}</p>
-          <p className="mb-2">Số lượng: {batchDetails.quantity}</p>
-          <p className="mb-2">Đơn vị thuốc: {batchDetails.medicine_unit}</p>
-          <p className="mb-2">Giá nhập: {batchDetails.in_price}</p>
-          <p className="mb-2">Giá bán: {batchDetails.out_price}</p>
-
-          <p className="mb-4">
+          <p className="mb-2 text-gray-600">
+            Tên thuốc: {batchDetails.medicine_name}
+          </p>
+          <p className="mb-2 text-gray-600">
+            Nhóm thuốc: {batchDetails.group_name}
+          </p>
+          <p className="mb-2 text-gray-600">
+            Số lượng: {batchDetails.quantity} {batchDetails.medicine_unit}
+          </p>
+          <div className="h-[2px] my-4 bg-gray-600"></div>
+          <p className="mb-2 text-gray-600">
+            Giá nhập: {batchDetails.in_price} đồng
+          </p>
+          <p className="mb-2 text-gray-600">
+            Giá bán: {batchDetails.out_price} đồng
+          </p>
+          <div className="h-[2px] my-4 bg-gray-600"></div>
+          <p className="mb-2 text-gray-600">
             Ngày nhận: {formatDate(batchDetails.date_received)}
           </p>
-          <p className="mb-4">
+          <p className="mb-2 text-gray-600">
             Ngày hết hạn: {formatDate(batchDetails.expiration_date)}
           </p>
           {/* <button
