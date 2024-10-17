@@ -60,15 +60,16 @@ async function createBatch(req, res) {
 async function updateBatch(req, res) {
   try {
     const newBatch = req.body;
+    // console.log(newBatch);
 
-    await Medicine.updateMedicineNameAndGroupId(
-      newBatch.medicine_id,
+    const existingMedicine = await Medicine.getMedicineByNameAndGroupName(
       newBatch.medicine_name,
-      newBatch.group_id
+      newBatch.group_name
     );
 
     const result = await MedicineBatch.updateBatch(req.params.id, {
       ...newBatch,
+      medicine_id: existingMedicine.id,
     });
     if (result.rowsAffected[0] > 0) {
       res.json({ message: "Medicine batch updated successfully" });

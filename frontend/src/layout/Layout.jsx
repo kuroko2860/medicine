@@ -42,7 +42,7 @@ const Layout = () => {
               href="/medicine-batches"
               className="text-white hover:text-gray-300 block py-2 px-4"
             >
-              Lô thuốc
+              Nhập lô thuốc
             </a>
           </li>
           <li>

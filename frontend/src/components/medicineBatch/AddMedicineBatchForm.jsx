@@ -1,13 +1,15 @@
 import { useForm } from "react-hook-form";
 import axios from "../../config/axios";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 function AddMedicineBatchForm({
   onClose,
   medicineGroups,
   fetchMedicineBatches,
 }) {
-  const { register, handleSubmit, errors = {} } = useForm();
+  const { register, handleSubmit, errors = {}, watch, getValues } = useForm();
+  const [medicines, setMedicines] = useState([]);
 
   const onSubmit = async (data) => {
     try {
@@ -20,11 +22,24 @@ function AddMedicineBatchForm({
       toast.error(error.message);
     }
   };
+  const fetchMedicinesByGroup = async () => {
+    try {
+      const response = await axios.get(
+        `/medicines/group/${getValues("group_id")}`
+      );
+      setMedicines(response.data);
+    } catch (error) {
+      console.error("Error fetching medicines:", error);
+    }
+  };
+  useEffect(() => {
+    fetchMedicinesByGroup();
+  }, [watch("group_id")]);
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 bg-white  p-12 shadow-2xl rounded"
+      className="space-y-4 bg-white  p-12 h-[600px] overflow-auto shadow-2xl rounded"
     >
       <h2 className="text-2xl font-bold">Thêm lô thuốc</h2>
       <div className="flex flex-col">
@@ -44,24 +59,6 @@ function AddMedicineBatchForm({
       </div>
 
       <div className="flex flex-col">
-        <label
-          className="mb-2 text-sm font-medium text-gray-700"
-          htmlFor="medicine_name"
-        >
-          Tên thuốc:
-        </label>
-        <input
-          type="text"
-          id="medicine_name"
-          {...register("medicine_name", { required: true })}
-          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        {errors.medicine_name && (
-          <div className="text-red-500">Yêu cầu tên</div>
-        )}
-      </div>
-
-      <div className="flex flex-col">
         <label className="block">
           Nhóm thuốc:
           <select
@@ -73,6 +70,23 @@ function AddMedicineBatchForm({
               Object.entries(medicineGroups).map(([group_id, group_name]) => (
                 <option key={group_id} value={group_id}>
                   {group_name}
+                </option>
+              ))}
+          </select>
+        </label>
+      </div>
+      <div className="flex flex-col">
+        <label className="block">
+          Tên thuốc:
+          <select
+            {...register("medicine_name", { required: true })}
+            className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">Chọn thuốc</option>
+            {medicines &&
+              medicines.map(({ name }) => (
+                <option key={name} value={name}>
+                  {name}
                 </option>
               ))}
           </select>
@@ -132,7 +146,7 @@ function AddMedicineBatchForm({
           <div className="text-red-500">Yêu cầu số lượng</div>
         )}
       </div>
-      {/* <div className="flex flex-col">
+      <div className="flex flex-col">
         <label
           className="mb-2 text-sm font-medium text-gray-700"
           htmlFor="medicine_unit"
@@ -148,7 +162,42 @@ function AddMedicineBatchForm({
         {errors.medicine_unit && (
           <div className="text-red-500">Yêu cầu đơn vị thuốc</div>
         )}
-      </div> */}
+      </div>
+
+      <div className="flex flex-col">
+        <label
+          className="mb-2 text-sm font-medium text-gray-700"
+          htmlFor="in_price"
+        >
+          Giá nhập:
+        </label>
+        <input
+          type="number"
+          id="in_price"
+          {...register("in_price", { required: true })}
+          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        {errors.in_price && (
+          <div className="text-red-500">Yêu cầu giá nhập</div>
+        )}
+      </div>
+      <div className="flex flex-col">
+        <label
+          className="mb-2 text-sm font-medium text-gray-700"
+          htmlFor="out_price"
+        >
+          Giá bán:
+        </label>
+        <input
+          type="number"
+          id="out_price"
+          {...register("out_price", { required: true })}
+          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        {errors.out_price && (
+          <div className="text-red-500">Yêu cầu giá bán</div>
+        )}
+      </div>
 
       <button
         type="submit"

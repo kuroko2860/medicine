@@ -26,7 +26,7 @@ function Login() {
   return (
     <div className="container mx-auto p-8 flex">
       <div className="w-full mx-auto">
-        <div className="flex items-center justify-between w-full bg-blue-800 text-white py-4 px-8 h-16 text-xl mb-10">
+        <div className="flex items-center justify-between w-full bg-gray-800 text-white py-4 px-8 h-16 text-xl mb-10">
           <h1 className="text-4xl text-center font-bold">Quản lý thuốc</h1>
           <div className="flex gap-6">
             <a href="/login" className="hover:text-gray-300 duration-300">

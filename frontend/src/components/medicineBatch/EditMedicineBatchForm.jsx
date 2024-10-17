@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import axios from "../../config/axios";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 function EditMedicineBatchForm({
   onClose,
@@ -8,16 +9,21 @@ function EditMedicineBatchForm({
   medicineGroups,
   fetchMedicineBatches,
 }) {
+  const [medicines, setMedicines] = useState([]);
   const {
     register,
     handleSubmit,
     errors = {},
+    watch,
+    getValues,
   } = useForm({
     defaultValues: {
       batch_number: batch.batch_number,
       medicine_name: batch.medicine_name,
-      medicine_id: batch.medicine_id,
+      // medicine_id: batch.medicine_id,
       group_name: batch.group_name,
+      in_price: batch.in_price,
+      out_price: batch.out_price,
 
       expiration_date: batch.expiration_date
         ? new Date(batch.expiration_date).toISOString().split("T")[0]
@@ -29,6 +35,19 @@ function EditMedicineBatchForm({
         : "",
     },
   });
+  const fetchMedicinesByGroup = async () => {
+    try {
+      const response = await axios.get(
+        `/medicines/group/${getValues("group_id")}`
+      );
+      setMedicines(response.data);
+    } catch (error) {
+      console.error("Error fetching medicines:", error);
+    }
+  };
+  useEffect(() => {
+    fetchMedicinesByGroup();
+  }, [watch("group_id")]);
 
   const getDefaultValue = () => {
     for (const [key, value] of Object.entries(medicineGroups)) {
@@ -53,7 +72,7 @@ function EditMedicineBatchForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 bg-white  p-12 shadow-2xl rounded"
+      className="space-y-4 bg-white h-[600px] overflow-auto  p-12 shadow-2xl rounded"
     >
       <h2 className="text-2xl font-bold">Sửa lô thuốc</h2>
       <label className="block">
@@ -68,19 +87,6 @@ function EditMedicineBatchForm({
           <div className="text-red-500 text-sm">Batch number is required</div>
         )}
       </label>
-
-      <label className="block">
-        Tên thuốc:
-        <input
-          type="text"
-          {...register("medicine_name", { required: true })}
-          className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-        {errors.medicine_name && (
-          <div className="text-red-500 text-sm">Yêu cầu tên thuốc</div>
-        )}
-      </label>
-
       <label className="block">
         Nhóm thuốc:
         <select
@@ -106,6 +112,29 @@ function EditMedicineBatchForm({
         {errors.group_id && <span>Yêu cầu chọn nhóm</span>}
       </div>
 
+      <div className="flex flex-col">
+        <label className="block">
+          Tên thuốc:
+          <select
+            {...register("medicine_name", { required: true })}
+            defaultValue={batch.medicine_name}
+            className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">Chọn thuốc</option>
+            {medicines &&
+              medicines.map(({ name }) => (
+                <option
+                  key={name}
+                  value={name}
+                  selected={batch.medicine_name == name}
+                >
+                  {name}
+                </option>
+              ))}
+          </select>
+        </label>
+      </div>
+
       <label className="block">
         Ngày hết hạn:
         <input
@@ -129,7 +158,7 @@ function EditMedicineBatchForm({
           <div className="text-red-500 text-sm">Yêu cầu sô lượng</div>
         )}
       </label>
-      {/* <div className="flex flex-col">
+      <div className="flex flex-col">
         <label
           className="mb-2 text-sm font-medium text-gray-700"
           htmlFor="medicine_unit"
@@ -145,7 +174,7 @@ function EditMedicineBatchForm({
         {errors.medicine_unit && (
           <div className="text-red-500">Yêu cầu đơn vị thuốc</div>
         )}
-      </div> */}
+      </div>
 
       <label className="block">
         Ngày nhận:
@@ -158,6 +187,40 @@ function EditMedicineBatchForm({
           <div className="text-red-500 text-sm">Yêu cầu ngày nhận</div>
         )}
       </label>
+      <div className="flex flex-col">
+        <label
+          className="mb-2 text-sm font-medium text-gray-700"
+          htmlFor="in_price"
+        >
+          Giá nhập:
+        </label>
+        <input
+          type="number"
+          id="in_price"
+          {...register("in_price", { required: true })}
+          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        {errors.in_price && (
+          <div className="text-red-500">Yêu cầu giá nhập</div>
+        )}
+      </div>
+      <div className="flex flex-col">
+        <label
+          className="mb-2 text-sm font-medium text-gray-700"
+          htmlFor="out_price"
+        >
+          Giá bán:
+        </label>
+        <input
+          type="number"
+          id="out_price"
+          {...register("out_price", { required: true })}
+          className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        {errors.out_price && (
+          <div className="text-red-500">Yêu cầu giá bán</div>
+        )}
+      </div>
 
       <button
         type="submit"

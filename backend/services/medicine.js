@@ -10,6 +10,22 @@ async function getAllMedicines() {
     throw err;
   }
 }
+async function getMedicineByNameAndGroupName(name, group_name) {
+  try {
+    let pool = await poolPromise;
+    let result = await pool
+      .request()
+      .input("name", sql.NVarChar, name)
+      .input("group_name", sql.NVarChar, group_name)
+      .query(
+        "SELECT medicines.* FROM medicines inner join medicine_groups on medicines.group_id = medicine_groups.id WHERE medicines.name = @name AND medicine_groups.name = @group_name"
+      );
+    return result.recordset[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
 
 async function getMedicineById(id) {
   try {
@@ -214,8 +230,17 @@ async function getInventoryStock() {
     `);
   return result.recordset;
 }
-
+async function getMedicinesByGroupId(group_id) {
+  let pool = await poolPromise;
+  let result = await pool
+    .request()
+    .input("group_id", sql.Int, group_id)
+    .query("SELECT * FROM medicines WHERE [group_id] = @group_id");
+  return result.recordset;
+}
 module.exports = {
+  getMedicinesByGroupId,
+  getMedicineByNameAndGroupName,
   getAllMedicines,
   getMedicineById,
   createMedicine,

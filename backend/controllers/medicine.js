@@ -84,7 +84,17 @@ async function getInventoryStock(req, res) {
   }
 }
 
+async function getMedicinesByGroupId(req, res) {
+  try {
+    let medicines = await Medicine.getMedicinesByGroupId(req.params.group_id);
+    res.json(medicines);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
 module.exports = {
+  getMedicinesByGroupId,
   getAllMedicines,
   getMedicineById,
   createMedicine,

@@ -81,7 +81,9 @@ function MedicineBatchDetails() {
           <p className="mb-2">Tên thuốc: {batchDetails.medicine_name}</p>
           <p className="mb-2">Nhóm thuốc: {batchDetails.group_name}</p>
           <p className="mb-2">Số lượng: {batchDetails.quantity}</p>
-          {/* <p className="mb-2">Số lượng: {batchDetails.medicine_unit}</p> */}
+          <p className="mb-2">Đơn vị thuốc: {batchDetails.medicine_unit}</p>
+          <p className="mb-2">Giá nhập: {batchDetails.in_price}</p>
+          <p className="mb-2">Giá bán: {batchDetails.out_price}</p>
 
           <p className="mb-4">
             Ngày nhận: {formatDate(batchDetails.date_received)}
